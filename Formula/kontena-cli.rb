@@ -21,7 +21,7 @@ class KontenaCli < Formula
         "install", Dir["kontena-cli-*.gem"].first,
         "--install-dir", buildpath/"out",
         "--wrappers",
-        "--env-shebang",
+        "--no-env-shebang",
         "--no-document"
     end
 

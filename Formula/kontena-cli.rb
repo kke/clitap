@@ -34,7 +34,7 @@ class KontenaCli < Formula
 
     # Write a .ruby-version file to match the current ruby version (for rbenv/rvm users)
     ruby_version = Utils.popen_read(ruby_command, '-e', 'print RUBY_VERSION')
-    (bin/".ruby-version").write(ruby_version)
+    (prefix/".ruby-version").write(ruby_version)
 
     zsh_completion.install buildpath/"cli/lib/kontena/scripts/kontena.zsh" => "_kontena"
     bash_completion.install buildpath/"cli/lib/kontena/scripts/kontena.bash" => "kontena"

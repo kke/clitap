@@ -33,19 +33,22 @@ class KontenaCli < Formula
     libexec.install Dir["out/*"]
 
     # Write a .ruby-version file to match the current ruby version (for rbenv/rvm users)
-    ruby_version = Utils.popen_read(ruby_command, '-e', 'print RUBY_VERSION')
     (prefix/".ruby-version").write(ruby_version)
 
     zsh_completion.install buildpath/"cli/lib/kontena/scripts/kontena.zsh" => "_kontena"
     bash_completion.install buildpath/"cli/lib/kontena/scripts/kontena.bash" => "kontena"
   end
 
+  def ruby_version
+    @ruby_version ||= Utils.popen_read(ruby_command, '-e', 'print RUBY_VERSION').strip
+  end
+
   def exec_script
     <<-EOS.undent
       #!/bin/sh
-
       export GEM_HOME=#{libexec}
       export KONTENA_EXTRA_BUILDTAGS=homebrew#{",head" if build.head?}
+      export RBENV_VERSION=#{ruby_version}
       exec #{libexec/"bin/kontena"} "$@"
     EOS
   end
